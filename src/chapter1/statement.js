@@ -1,7 +1,7 @@
 function statement(invoice, plays) {
     let totalAmount = 0;
     let volumeCredits = 0;
-    let result = `Statement for $(invoice.customer)\n`;
+    let result = `Statement for ${invoice.customer}\n`;
     const format = new Intl.NumberFormat("en-US",
         { style: "currency", currency: "USD",
             minimumFractionDigits: 2}).format;
@@ -43,5 +43,13 @@ function statement(invoice, plays) {
 
 let plays = require('./plays.json')
 let invoices = require('./invoices.json')
+const assert = require("assert");
 
+assert.deepEqual(statement(invoices[0], plays),
+    "Statement for BigCo\n" +
+    "  Hamlet: $650.00 (55 seats)\n" +
+    "  As You Like It: $580.00 (35 seats)\n" +
+    "  Othello: $500.00 (40 seats)\n" +
+    "Amount owed is $1,730.00\n" +
+    "You earned 47 credits\n")
 console.log(statement(invoices[0], plays));
