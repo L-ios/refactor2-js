@@ -52,7 +52,7 @@ function totalVolumeCredits(invoice) {
 function totalAmount(invoice) {
     let totalAmount = 0;
     for (let perf of invoice.performances) {
-        totalAmount += amountFor(perf);
+        totalAmount += perf.amount;
     }
     return totalAmount;
 }
@@ -67,6 +67,7 @@ function statement(invoice) {
 function enrichPerformance(aPerformance) {
     const result = Object.assign({}, aPerformance);
     result.play = playFor(result)
+    result.amount = amountFor(result)
     return result;
 }
 
@@ -75,7 +76,7 @@ function renderPlainText(data) {
 
     for (let perf of data.performances) {
         // print line for this order
-        result += `  ${perf.play.name}: ${usd(amountFor(perf)/100)} (${perf.audience} seats)\n`;
+        result += `  ${perf.play.name}: ${usd(perf.amount/100)} (${perf.audience} seats)\n`;
     }
 
     result += `Amount owed is ${usd(totalAmount(data)/100)}\n`;
