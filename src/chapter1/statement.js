@@ -44,7 +44,7 @@ function usd(aNumber) {
 function totalVolumeCredits(invoice) {
     let volumeCredits = 0;
     for (let perf of invoice.performances) {
-        volumeCredits += volumeCreditsFor(perf);
+        volumeCredits += perf.volumeCredits;
     }
     return volumeCredits;
 }
@@ -68,6 +68,7 @@ function enrichPerformance(aPerformance) {
     const result = Object.assign({}, aPerformance);
     result.play = playFor(result)
     result.amount = amountFor(result)
+    result.volumeCredits = volumeCreditsFor(result)
     return result;
 }
 
