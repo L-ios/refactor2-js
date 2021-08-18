@@ -49,18 +49,24 @@ function totalVolumeCredits(invoice) {
     return volumeCredits;
 }
 
-function statement(invoice) {
+function totalAmount(invoice) {
     let totalAmount = 0;
+    for (let perf of invoice.performances) {
+        totalAmount += amountFor(perf);
+    }
+    return totalAmount;
+}
+
+function statement(invoice) {
     let result = `Statement for ${invoice.customer}\n`;
 
     for (let perf of invoice.performances) {
         // print line for this order
         result += `  ${playFor(perf).name}: ${usd(amountFor(perf)/100)} (${perf.audience} seats)\n`;
-        totalAmount += amountFor(perf);
     }
-    let volumeCredits = totalVolumeCredits(invoice);
-    result += `Amount owed is ${usd(totalAmount/100)}\n`;
-    result += `You earned ${volumeCredits} credits\n`;
+
+    result += `Amount owed is ${usd(totalAmount(invoice)/100)}\n`;
+    result += `You earned ${totalVolumeCredits(invoice)} credits\n`;
     return result;
 }
 
