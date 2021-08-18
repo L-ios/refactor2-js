@@ -58,7 +58,13 @@ function totalAmount(invoice) {
 }
 
 function statement(invoice) {
-    let result = `Statement for ${invoice.customer}\n`;
+    const statementData = {}
+    statementData.customer = invoice.customer
+    return renderPlainText(statementData, invoice)
+}
+
+function renderPlainText(data, invoice) {
+    let result = `Statement for ${data.customer}\n`;
 
     for (let perf of invoice.performances) {
         // print line for this order
