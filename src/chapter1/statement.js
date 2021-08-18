@@ -60,19 +60,20 @@ function totalAmount(invoice) {
 function statement(invoice) {
     const statementData = {}
     statementData.customer = invoice.customer
+    statementData.performances = invoice.performances
     return renderPlainText(statementData, invoice)
 }
 
-function renderPlainText(data, invoice) {
+function renderPlainText(data) {
     let result = `Statement for ${data.customer}\n`;
 
-    for (let perf of invoice.performances) {
+    for (let perf of data.performances) {
         // print line for this order
         result += `  ${playFor(perf).name}: ${usd(amountFor(perf)/100)} (${perf.audience} seats)\n`;
     }
 
-    result += `Amount owed is ${usd(totalAmount(invoice)/100)}\n`;
-    result += `You earned ${totalVolumeCredits(invoice)} credits\n`;
+    result += `Amount owed is ${usd(totalAmount(data)/100)}\n`;
+    result += `You earned ${totalVolumeCredits(data)} credits\n`;
     return result;
 }
 
